@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Support - WellMind AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0e27;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at top left, rgba(236, 72, 153, 0.15), transparent 50%),
+                radial-gradient(ellipse at top right, rgba(168, 85, 247, 0.15), transparent 50%),
+                radial-gradient(ellipse at bottom, rgba(59, 130, 246, 0.15), transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            pointer-events: none;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 40px 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 3em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ec4899, #a855f7, #3b82f6);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientMove 5s ease infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        nav {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(20px);
+            padding: 25px;
+            border-radius: 25px;
+            border: 1px solid rgba(236, 72, 153, 0.15);
+            margin-bottom: 30px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #e2e8f0;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(168, 85, 247, 0.2));
+            padding: 16px 32px;
+            border-radius: 15px;
+            transition: all 0.4s;
+            display: block;
+            font-weight: 600;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+
+        nav a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(236, 72, 153, 0.4);
+        }
+
+        .content {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(236, 72, 153, 0.2);
+        }
+
+        .page-title {
+            text-align: center;
+            color: #e2e8f0;
+            font-size: 2.5em;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1.2em;
+            margin-bottom: 50px;
+        }
+
+        .chat-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .chat-box {
+            background: rgba(236, 72, 153, 0.05);
+            border-radius: 25px;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+
+        .chat-header {
+            padding: 25px;
+            border-bottom: 1px solid rgba(236, 72, 153, 0.2);
+        }
+
+        .chat-header h3 {
+            color: #e2e8f0;
+            font-size: 1.5em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: rgba(236, 72, 153, 0.1);
+            border-radius: 10px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(236, 72, 153, 0.3);
+            border-radius: 10px;
+        }
+
+        .message {
+            padding: 15px 20px;
+            border-radius: 15px;
+            max-width: 80%;
+            animation: slideIn 0.3s ease;
+            line-height: 1.6;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            background: linear-gradient(135deg, #ec4899, #a855f7);
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .message.ai {
+            background: rgba(59, 130, 246, 0.2);
+            color: #e2e8f0;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            align-self: flex-start;
+        }
+
+        .message-time {
+            font-size: 0.8em;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 15px 20px;
+            border-radius: 15px;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            width: fit-content;
+        }
+
+        .typing-indicator.show {
+            display: block;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 5px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: #3b82f6;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        .chat-input-container {
+            padding: 25px;
+            border-top: 1px solid rgba(236, 72, 153, 0.2);
+            display: flex;
+            gap: 15px;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 15px;
+            padding: 15px 20px;
+            color: #e2e8f0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .chat-input:focus {
+            border-color: rgba(236, 72, 153, 0.6);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.2);
+        }
+
+        .chat-input::placeholder {
+            color: #64748b;
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #ec4899, #a855f7);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+        }
+
+        .send-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.4);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .resources-panel {
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 25px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 30px;
+            height: fit-content;
+        }
+
+        .resources-panel h3 {
+            color: #e2e8f0;
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        .resource-card {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .resource-name {
+            color: #e2e8f0;
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .resource-contact {
+            color: #3b82f6;
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        .resource-icon {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .mood-tracker {
+            background: rgba(168, 85, 247, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .mood-tracker h4 {
+            color: #e2e8f0;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .mood-options {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .mood-btn {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            padding: 15px 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.5em;
+            flex: 1;
+            text-align: center;
+        }
+
+        .mood-btn:hover {
+            transform: scale(1.1);
+            border-color: rgba(168, 85, 247, 0.6);
+        }
+
+        .mood-btn.selected {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            border-color: #a855f7;
+        }
+
+        .emergency-notice {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            color: #fca5a5;
+        }
+
+        .emergency-notice strong {
+            color: #ef4444;
+        }
+
+        footer {
+            text-align: center;
+            color: #94a3b8;
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+        }
+
+        @media (max-width: 968px) {
+            .chat-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .chat-box {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💭 Mental Health Support</h1>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="templates/index.html">🏡 Home</a></li>
+                <li><a href="templates/medical_imaging.html">🔬 Medical Imaging</a></li>
+                <li><a href="templates/mental_health.html">💭 Mental Health</a></li>
+                <li><a href="templates/outbreak_prediction.html">📊 Outbreak Prediction</a></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <h2 class="page-title">AI Mental Wellness Companion</h2>
+            <p class="page-subtitle">24/7 emotional support and mental health resources at your fingertips</p>
+
+            <div class="chat-container">
+                <div class="chat-box">
+                    <div class="chat-header">
+                        <h3>
+                            <span class="status-indicator"></span>
+                            Chat with WellMind AI
+                        </h3>
+                    </div>
+                    
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message ai">
+                            <div>Hello! I'm WellMind AI, your mental wellness companion. I'm here to listen and support you. How are you feeling today?</div>
+                            <div class="message-time" id="welcomeTime"></div>
+                        </div>
+                    </div>
+
+                    <div class="typing-indicator" id="typingIndicator">
+                        <div class="typing-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <input 
+                            type="text" 
+                            class="chat-input" 
+                            id="messageInput" 
+                            placeholder="Share your thoughts..."
+                            onkeypress="handleKeyPress(event)"
+                        >
+                        <button class="send-btn" id="sendBtn" onclick="sendMessage()">Send 💬</button>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="resources-panel">
+                        <h3>🆘 Crisis Resources</h3>
+                        <div id="resourcesList">
+                            <div class="resource-card">
+                                <div class="resource-icon">📞</div>
+                                <div class="resource-name">NIMHANS Helpline</div>
+                                <div class="resource-contact">080-46110007</div>
+                            </div>
+                            <div class="resource-card">
+                                <div class="resource-icon">🤝</div>
+                                <div class="resource-name">Vandrevala Foundation</div>
+                                <div class="resource-contact">1860-2662-345</div>
+                            </div>
+                            <div class="resource-card">
+                                <div class="resource-icon">💚</div>
+                                <div class="resource-name">iCall</div>
+                                <div class="resource-contact">9152987821</div>
+                            </div>
+                        </div>
+
+                        <div class="emergency-notice">
+                            <strong>⚠️ Emergency?</strong><br>
+                            If you're in crisis, please call emergency services or visit your nearest hospital immediately.
+                        </div>
+                    </div>
+
+                    <div class="mood-tracker">
+                        <h4>How are you feeling?</h4>
+                        <div class="mood-options">
+                            <button class="mood-btn" onclick="selectMood(this, 'great')" title="Great">😊</button>
+                            <button class="mood-btn" onclick="selectMood(this, 'good')" title="Good">🙂</button>
+                            <button class="mood-btn" onclick="selectMood(this, 'okay')" title="Okay">😐</button>
+                            <button class="mood-btn" onclick="selectMood(this, 'sad')" title="Sad">😔</button>
+                            <button class="mood-btn" onclick="selectMood(this, 'anxious')" title="Anxious">😰</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>WellMind AI - Supporting UN SDG 3: Good Health and Well-being</p>
+            <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.8;">Built with ❤️ using Python & Flask</p>
+        </footer>
+    </div>
+
+    <script>
+        // Set welcome message time
+        document.getElementById('welcomeTime').textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Disable send button
+            const sendBtn = document.getElementById('sendBtn');
+            sendBtn.disabled = true;
+
+            // Show typing indicator
+            const typingIndicator = document.getElementById('typingIndicator');
+            typingIndicator.classList.add('show');
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Hide typing indicator
+                    typingIndicator.classList.remove('show');
+                    
+                    // Add AI response
+                    addMessage(data.response, 'ai');
+
+                    // Update resources if provided
+                    if (data.resources && data.resources.length > 0) {
+                        updateResources(data.resources);
+                    }
+                } else {
+                    typingIndicator.classList.remove('show');
+                    addMessage('I apologize, but I encountered an error. Please try again.', 'ai');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                typingIndicator.classList.remove('show');
+                addMessage('I apologize, but I couldn\'t connect to the server. Please check your connection.', 'ai');
+            } finally {
+                sendBtn.disabled = false;
+            }
+        }
+
+        function addMessage(text, type) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            messageDiv.innerHTML = `
+                <div>${text}</div>
+                <div class="message-time">${time}</div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function updateResources(resources) {
+            const resourcesList = document.getElementById('resourcesList');
+            resourcesList.innerHTML = '';
+            
+            resources.forEach(resource => {
+                const card = document.createElement('div');
+                card.className = 'resource-card';
+                card.innerHTML = `
+                    <div class="resource-icon">📞</div>
+                    <div class="resource-name">${resource.name}</div>
+                    <div class="resource-contact">${resource.contact}</div>
+                `;
+                resourcesList.appendChild(card);
+            });
+        }
+
+        function selectMood(button, mood) {
+            // Remove selected class from all buttons
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked button
+            button.classList.add('selected');
+            
+            // Log mood (you can send this to backend if needed)
+            console.log('Mood selected:', mood);
+            
+            // Optionally send a message about the mood
+            const moodMessages = {
+                'great': 'I\'m feeling great today!',
+                'good': 'I\'m feeling good.',
+                'okay': 'I\'m feeling okay.',
+                'sad': 'I\'m feeling a bit sad.',
+                'anxious': 'I\'m feeling anxious.'
+            };
+            
+            setTimeout(() => {
+                document.getElementById('messageInput').value = moodMessages[mood];
+            }, 100);
+        }
+    </script>
+</body>
+</html>

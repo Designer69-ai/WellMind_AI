@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WellMind AI - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0e27;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at top left, rgba(139, 92, 246, 0.15), transparent 50%),
+                radial-gradient(ellipse at top right, rgba(59, 130, 246, 0.15), transparent 50%),
+                radial-gradient(ellipse at bottom left, rgba(236, 72, 153, 0.15), transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(168, 85, 247, 0.15), transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            pointer-events: none;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .particle {
+            position: fixed;
+            background: rgba(139, 92, 246, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            33% { transform: translateY(-100px) translateX(50px); }
+            66% { transform: translateY(-50px) translateX(-50px); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 40px 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        h1 {
+            font-size: 3.5em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6, #ec4899);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientMove 5s ease infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .tagline {
+            color: #94a3b8;
+            font-size: 1.3em;
+            font-weight: 400;
+        }
+
+        nav {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(20px);
+            padding: 25px;
+            border-radius: 25px;
+            border: 1px solid rgba(139, 92, 246, 0.15);
+            margin-bottom: 30px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #e2e8f0;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2));
+            padding: 16px 32px;
+            border-radius: 15px;
+            transition: all 0.4s;
+            display: block;
+            font-weight: 600;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        nav a:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        nav a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(139, 92, 246, 0.4);
+        }
+
+        .content {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 0 60px;
+        }
+
+        .hero h2 {
+            font-size: 3em;
+            font-weight: 800;
+            color: #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            color: #94a3b8;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+            padding: 40px;
+            border-radius: 25px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 60px rgba(139, 92, 246, 0.3);
+            border-color: rgba(139, 92, 246, 0.6);
+        }
+
+        .feature-card:nth-child(2) {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(244, 114, 182, 0.1));
+            border-color: rgba(236, 72, 153, 0.3);
+        }
+
+        .feature-card:nth-child(2):hover {
+            box-shadow: 0 20px 60px rgba(236, 72, 153, 0.3);
+            border-color: rgba(236, 72, 153, 0.6);
+        }
+
+        .feature-card:nth-child(3) {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(96, 165, 250, 0.1));
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .feature-card:nth-child(3):hover {
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3);
+            border-color: rgba(59, 130, 246, 0.6);
+        }
+
+        .icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .feature-card h3 {
+            color: #e2e8f0;
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .feature-card ul {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .feature-card li {
+            color: #cbd5e1;
+            padding: 10px 0;
+            font-weight: 500;
+        }
+
+        .feature-card li::before {
+            content: "✓ ";
+            color: #8b5cf6;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            color: white;
+            padding: 16px 35px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            margin-top: 20px;
+            border: 1px solid rgba(139, 92, 246, 0.5);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+        }
+
+        .mission-section {
+            padding: 50px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(59, 130, 246, 0.05));
+            border-radius: 25px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-section::before,
+        .mission-section::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .mission-section::before {
+            top: -100px;
+            right: -100px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.2), transparent);
+        }
+
+        .mission-section::after {
+            bottom: -100px;
+            left: -100px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.2), transparent);
+        }
+
+        .mission-section h3 {
+            color: #e2e8f0;
+            font-size: 2.5em;
+            font-weight: 800;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mission-section p {
+            color: #94a3b8;
+            font-size: 1.15em;
+            line-height: 1.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .stat-card .stat-number {
+            font-size: 2.8em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-card .stat-label {
+            color: #94a3b8;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        footer {
+            text-align: center;
+            color: #94a3b8;
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(139, 92, 246, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2em; }
+            .hero h2 { font-size: 2em; }
+            .features-grid { grid-template-columns: 1fr; }
+            header, nav, .content, .mission-section { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="particle" style="width: 300px; height: 300px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+    <div class="particle" style="width: 200px; height: 200px; top: 60%; right: 10%; animation-delay: 5s;"></div>
+    <div class="particle" style="width: 250px; height: 250px; bottom: 10%; left: 50%; animation-delay: 10s;"></div>
+
+    <div class="container">
+        <header>
+            <h1>🧠 WellMind AI</h1>
+            <p class="tagline">An AI-powered Health Assistant for Everyone</p>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="/">🏡 Home</a></li>
+                <li><a href="/medical-imaging">🔬 Medical Imaging</a></li>
+                <li><a href="/mental-health">💭 Mental Health</a></li>
+                <li><a href="/outbreak-prediction">📊 Outbreak Prediction</a></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <div class="hero">
+                <h2>Welcome to WellMind AI</h2>
+                <p>Leveraging artificial intelligence to address healthcare challenges and support UN SDG 3.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">🔬</div>
+                    <h3>Medical Image Analysis</h3>
+                    <p>Advanced AI models that detect diseases from X-rays, MRIs and retinal images with high accuracy</p>
+                    <ul>
+                        <li>Pneumonia Detection</li>
+                        <li>Tumor Identification</li>
+                        <li>Diabetic Retinopathy Screening</li>
+                    </ul>
+                    <a href="/medical-imaging" class="btn">Analyze Images →</a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon">💭</div>
+                    <h3>Mental Health Support</h3>
+                    <p>AI-powered mental wellness companion providing personalized support and guidance</p>
+                    <ul>
+                        <li>24/7 Emotional Support</li>
+                        <li>Stress Assessment</li>
+                        <li>Mindfulness Resources</li>
+                    </ul>
+                    <a href="/mental-health" class="btn">Get Support →</a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon">📊</div>
+                    <h3>Outbreak Prediction</h3>
+                    <p>Data-driven disease outbreak forecasting to help communities prepare and respond</p>
+                    <ul>
+                        <li>Real-time Data Analysis</li>
+                        <li>Risk Assessment</li>
+                        <li>Preventive Insights</li>
+                    </ul>
+                    <a href="/outbreak-prediction" class="btn">View Predictions →</a>
+                </div>
+            </div>
+
+            <div class="mission-section">
+                <h3>🎯 Our Mission</h3>
+                <p>
+                    WellMind AI is committed to democratizing healthcare through artificial intelligence.
+                    By making advanced diagnostic tools and healthcare resources accessible to everyone,
+                    we're working towards achieving the United Nations Sustainable Development Goal 3: ensuring healthy lives and
+                    promoting well-being for all at all ages.
+                </p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">AI</div>
+                        <div class="stat-label">Powered Analysis</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Available Support</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">SDG 3</div>
+                        <div class="stat-label">Aligned Goals</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p style="font-size: 1.1em; margin-bottom: 8px;">WellMind AI - Supporting UN SDG 3: Good Health and Well-being</p>
+            <p style="font-size: 0.95em; opacity: 0.8;">Built with ❤️ using Python & Flask</p>
+        </footer>
+    </div>
+</body>
+</html>
