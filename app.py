@@ -5,7 +5,7 @@ import google.generativeai as genai
 from datetime import datetime
 import secrets
 
-GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', 'AIzaSyCN98P0_0_nrmtwSj7rIZkueVYIlLcQei4')
+GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', 'YOUR_API_KEY')
 
 print(f"API Key loaded: {GEMINI_API_KEY[:10]}..." if GEMINI_API_KEY else "No API key found!")
 print(f"API Key length: {len(GEMINI_API_KEY)}")
